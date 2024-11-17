@@ -1,0 +1,16 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Deploy to Server
+        run: |
+          ssh root@147.45.173.136 "docker pull breez97/flask-app:latest && docker-compose up -d"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
