@@ -52,21 +52,14 @@ jobs:
           ssh -o StrictHostKeyChecking=no root@147.45.173.136 "cd Cloud-Services && git pull && docker pull breez97/flask-app:latest && docker-compose -f docker-compose.yml up -d"
 
       - 
-        name: Get container ID
+        name: Run Migration Script
         run: |
           ssh -o StrictHostKeyChecking=no root@147.45.173.136 "
             container_id=\$(docker ps -q --filter 'ancestor=cloud-services-web')
-            echo \$container_id
+            if [ -n \"\$container_id\" ]; then
+              docker exec -it \$container_id /bin/sh -c './migrate.sh'
+            else
+              echo 'Container not found'
+            fi
           "
 
-      # - 
-      #   name: Run Migration Script
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no root@147.45.173.136 "
-      #       container_id=\$(docker ps -q --filter 'ancestor=cloud-services-web')
-      #       if [ -n \"\$container_id\" ]; then
-      #         docker exec -it \$container_id /bin/sh -c '/path/to/migrate.sh'
-      #       else
-      #         echo 'Container not found'
-      #       fi
-      #     "
