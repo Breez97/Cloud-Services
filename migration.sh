@@ -1,9 +1,12 @@
 #!/bin/bash
 
-# Получение ID контейнера
-FLASK_CONTAINER_ID=$1
+FLASK_CONTAINER_ID=$(docker ps -q --filter 'ancestor=cloud-services-web')
 
-# Выполнение команд миграции
-docker exec -it $FLASK_CONTAINER_ID flask db init
-docker exec -it $FLASK_CONTAINER_ID flask db migrate -m "Initial migration"
-docker exec -it $FLASK_CONTAINER_ID flask db upgrade
+if [ -z "$FLASK_CONTAINER_ID" ]; then
+    echo "Flask container not found"
+    exit 1
+fi
+
+docker exec -i $FLASK_CONTAINER_ID flask db init
+docker exec -i $FLASK_CONTAINER_ID flask db migrate -m "Initial migration"
+docker exec -i $FLASK_CONTAINER_ID flask db upgrade

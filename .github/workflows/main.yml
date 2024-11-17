@@ -55,10 +55,7 @@ jobs:
         name: Run Migration Script
         run: |
           ssh -o StrictHostKeyChecking=no root@147.45.173.136 "
-            container_id=\$(docker ps -q --filter 'ancestor=cloud-services-web')
-            if [ -n \"\$container_id\" ]; then
-              docker exec -i \$container_id /bin/sh -c './migration.sh'
-            else
-              echo 'Container not found'
-            fi
+            cd Cloud-Services
+            chmod +x migration.sh
+            ./migration.sh
           "
