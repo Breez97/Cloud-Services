@@ -70,4 +70,4 @@ jobs:
           ssh root@147.45.173.136 "echo '${{ secrets.SSL_CERT }}' > /etc/ssl/certs/selfsigned.crt"
           ssh root@147.45.173.136 "echo '${{ secrets.SSL_KEY }}' > /etc/ssl/private/selfsigned.key"
           
-          ssh root@147.45.173.136 "docker-compose -f Cloud-Services/docker-compose.nginx.yml restart"
+          ssh root@147.45.173.136 "cd Cloud-Services && docker-compose -f docker-compose.nginx.yml restart"
