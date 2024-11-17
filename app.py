@@ -98,5 +98,13 @@ def clear_user_cache(id):
 	return jsonify({'message': f'Cache for user {id} cleared'})
 
 
+# Страницы приложения
+
+# Главная страница
+@app.route('/')
+def home_page():
+	return jsonify({'message': 'Welcome to main page'})
+
+
 if __name__ == '__main__':
 	app.run(host='0.0.0.0')
