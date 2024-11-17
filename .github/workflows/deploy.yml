@@ -9,7 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - 
+        name: Add SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - 
         name: Deploy to Server
         run: ssh -o StrictHostKeyChecking=no root@147.45.173.136 "docker pull breez97/flask-app:latest && docker-compose up -d"
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
