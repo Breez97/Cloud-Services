@@ -65,7 +65,9 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no root@147.45.173.136 "cd Cloud-Services && git pull && docker pull breez97/flask-app:latest && docker-compose -f docker-compose.nginx.yml up -d"
           
-          scp /etc/ssl/certs/selfsigned.crt root@147.45.173.136:/etc/ssl/certs/
-          scp /etc/ssl/private/selfsigned.key root@147.45.173.136:/etc/ssl/private/
+          ssh root@147.45.173.136 "mkdir -p /etc/ssl/certs /etc/ssl/private"
+          
+          ssh root@147.45.173.136 "echo '${{ secrets.SSL_CERT }}' > /etc/ssl/certs/selfsigned.crt"
+          ssh root@147.45.173.136 "echo '${{ secrets.SSL_KEY }}' > /etc/ssl/private/selfsigned.key"
           
           ssh root@147.45.173.136 "docker-compose -f docker-compose.nginx.yml restart"
