@@ -39,7 +39,7 @@ def create_user():
 	new_user = User(username=data['username'], email=data['email'])
 	db.session.add(new_user)
 	db.session.commit()
-	return jsonify({'message': 'User created successfully'})
+	return jsonify({'message': 'User created successfully', 'id': new_user.id}), 200
 
 # Получение списка всех пользователей
 @app.route('/users', methods=['GET'])
