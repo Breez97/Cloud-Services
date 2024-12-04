@@ -44,7 +44,11 @@ jobs:
           ssh -o StrictHostKeyChecking=no root@147.45.173.136 "
             mkdir -p ~/Cloud-Services && 
             cd ~/Cloud-Services && 
-            git pull && 
+            if [ ! -d .git ]; then
+              git clone https://github.com/Breez97/Cloud-Services .
+            else
+              git pull;
+            fi
             docker pull breez97/flask-app:latest && 
             mkdir -p /etc/letsencrypt /var/www/certbot
           "
@@ -55,7 +59,7 @@ jobs:
               -v /var/www/certbot:/var/www/certbot \
               certbot/certbot certonly --webroot \
               --webroot-path=/var/www/certbot \
-              --email ilya66401@gmail.com \
+              --email your-email@example.com \
               --agree-tos \
               --no-eff-email \
               -d breez-domain.ru -d www.breez-domain.ru
@@ -64,3 +68,4 @@ jobs:
           ssh root@147.45.173.136 "
             cd ~/Cloud-Services && 
             docker-compose -f docker-compose.nginx.yml up -d
+          "
