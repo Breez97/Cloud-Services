@@ -2,11 +2,14 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_caching import Cache
+from prometheus_flask_exporter import PrometheusMetrics
 
 import os
 
 
 app = Flask(__name__)
+
+metrics = PrometheusMetrics(app)
 
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://user:password@db:5432/flask_db'
 app.config['SQLACHEMY_TRACK_MODIFICATIONS']=False
