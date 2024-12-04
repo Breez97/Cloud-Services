@@ -23,7 +23,6 @@ jobs:
         run: |
           docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
           docker-compose -f docker-compose.test.yml down
-        continue-on-error: false
       
       - name: Log in to Docker Hub
         run: |
@@ -41,31 +40,12 @@ jobs:
 
       - name: Deploy to Server
         run: |
+          ssh -o StrictHostKeyChecking=no root@147.45.173.136 "cd Cloud-Services && git pull && docker pull breez97/flask-app:latest && docker-compose -f docker-compose.yml up -d"
+
+      - name: Run Migration Script
+        run: |
           ssh -o StrictHostKeyChecking=no root@147.45.173.136 "
-            mkdir -p ~/Cloud-Services && 
-            cd ~/Cloud-Services && 
-            if [ ! -d .git ]; then
-              git clone https://github.com/Breez97/Cloud-Services .
-            else
-              git pull;
-            fi
-            docker pull breez97/flask-app:latest && 
-            mkdir -p /etc/letsencrypt /var/www/certbot
-          "
-
-          ssh root@147.45.173.136 "
-            docker run -it --rm --name certbot \
-              -v /etc/letsencrypt:/etc/letsencrypt \
-              -v /var/www/certbot:/var/www/certbot \
-              certbot/certbot certonly --webroot \
-              --webroot-path=/var/www/certbot \
-              --email your-email@example.com \
-              --agree-tos \
-              --no-eff-email \
-              -d breez-domain.ru -d www.breez-domain.ru
-          "
-
-          ssh root@147.45.173.136 "
-            cd ~/Cloud-Services && 
-            docker-compose -f docker-compose.nginx.yml up -d
+            cd Cloud-Services
+            chmod +x migration.sh
+            ./migration.sh
           "
