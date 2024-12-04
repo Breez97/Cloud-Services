@@ -40,12 +40,4 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh -o StrictHostKeyChecking=no root@147.45.173.136 "cd Cloud-Services && git pull && docker pull breez97/flask-app:latest && docker-compose -f docker-compose.yml up -d"
-
-      - name: Run Migration Script
-        run: |
-          ssh -o StrictHostKeyChecking=no root@147.45.173.136 "
-            cd Cloud-Services
-            chmod +x migration.sh
-            ./migration.sh
-          "
+          ssh -o StrictHostKeyChecking=no root@147.45.173.136 "cd Cloud-Services && git pull && docker pull breez97/flask-app:latest && docker-compose up -d"
