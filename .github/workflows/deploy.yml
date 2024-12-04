@@ -45,14 +45,21 @@ jobs:
             cd Cloud-Services && 
             git pull && 
             docker pull breez97/flask-app:latest && 
-            mkdir -p /etc/ssl/certs /etc/ssl/private
+            mkdir -p /etc/letsencrypt /var/www/certbot
           "
-          
+
           ssh root@147.45.173.136 "
-            echo '${{ secrets.SSL_CERT }}' > /etc/ssl/certs/selfsigned.crt &&
-            echo '${{ secrets.SSL_KEY }}' > /etc/ssl/private/selfsigned.key
+            docker run -it --rm --name certbot \
+              -v /etc/letsencrypt:/etc/letsencrypt \
+              -v /var/www/certbot:/var/www/certbot \
+              certbot/certbot certonly --webroot \
+              --webroot-path=/var/www/certbot \
+              --email ilya66401@gmail.com \
+              --agree-tos \
+              --no-eff-email \
+              -d breez-domain.ru -d www.breez-domain.ru
           "
-          
+
           ssh root@147.45.173.136 "
             cd Cloud-Services && 
             docker-compose -f docker-compose.nginx.yml up -d
