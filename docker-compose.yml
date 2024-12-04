@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.web
+    container_name: cloud-services-web
     expose:
       - "5000"
     depends_on:
