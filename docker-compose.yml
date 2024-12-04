@@ -13,13 +13,6 @@ services:
     environment:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
-    deploy:
-      replicas: 3
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
   
   db:
     image: postgres:latest
