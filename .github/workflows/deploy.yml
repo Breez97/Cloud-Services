@@ -42,7 +42,8 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no root@147.45.173.136 "
-            cd Cloud-Services && 
+            mkdir -p ~/Cloud-Services && 
+            cd ~/Cloud-Services && 
             git pull && 
             docker pull breez97/flask-app:latest && 
             mkdir -p /etc/letsencrypt /var/www/certbot
@@ -61,6 +62,5 @@ jobs:
           "
 
           ssh root@147.45.173.136 "
-            cd Cloud-Services && 
+            cd ~/Cloud-Services && 
             docker-compose -f docker-compose.nginx.yml up -d
-          "
