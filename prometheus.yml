@@ -7,7 +7,7 @@ web:
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['prometheus:9090']
+      - targets: ['localhost:9089']
 
   - job_name: 'node_exporter'
     static_configs:
