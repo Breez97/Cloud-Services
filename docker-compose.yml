@@ -195,10 +195,24 @@ services:
     image: kibana:8.16.0
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    ports: 
+    ports:
       - "5601:5601"
     depends_on:
       - elasticsearch
+    networks:
+      - default
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+    restart: always
+    depends_on:
+      - web
     networks:
       - default
 
