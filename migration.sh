@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 10
+
 FLASK_CONTAINER_ID=$(docker ps -q --filter 'ancestor=cloud-services-web')
 
 if [ -z "$FLASK_CONTAINER_ID" ]; then
