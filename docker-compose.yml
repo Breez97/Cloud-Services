@@ -14,6 +14,8 @@ services:
     environment:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
+    networks:
+    - default
   
   db:
     image: postgres:latest
@@ -25,11 +27,15 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+    - default
   
   redis:
     image: redis:alpine
     ports:
       - "6379:6379"
+    networks:
+    - default
   
   nginx:
     image: nginx:latest
@@ -45,12 +51,16 @@ services:
       - web
       - prometheus
       - grafana
+    networks:
+    - default
   
   certbot:
     image: certbot/certbot
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
+    networks:
+    - default
   
   prometheus:
     image: prom/prometheus:latest
@@ -60,11 +70,15 @@ services:
       - "9089:9089"
     command:
       - '--web.listen-address=:9089'
+    networks:
+    - default
 
   node-exporter:
     image: prom/node-exporter:latest
     ports:
       - "9100:9100"
+    networks:
+    - default
   
   grafana:
     image: grafana/grafana:latest
@@ -75,13 +89,16 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
+    networks:
+    - default
     
 volumes:
   postgres_data:
 
 networks:
   default:
-    driver: bridge
+    name: cloud-services_default
+    external: true
 
 #   prometheus:
 #     image: prom/prometheus:latest
