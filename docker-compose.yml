@@ -16,9 +16,10 @@ services:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
     logging:
-      driver: "syslog"
+      driver: "json-file"
       options:
-        syslog-address: "tcp://logstash:5000"
+        max-size: "10m"
+        max-file: "3"
     networks:
       - default
   
