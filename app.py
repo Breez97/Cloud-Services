@@ -49,6 +49,7 @@ def create_user():
 @cache.cached(timeout=60)
 def get_users():
 	users = User.query.all()
+	print(f"Found users: {users}")
 	users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
 	return jsonify(users_list)
 

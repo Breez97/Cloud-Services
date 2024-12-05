@@ -44,7 +44,6 @@ jobs:
             cd Cloud-Services && \
             git pull && \
             docker pull breez97/flask-app:latest && \
-            docker-compose down && \
             docker-compose down -v && \
             docker-compose up -d --build && \
             chmod +x migration.sh && \
