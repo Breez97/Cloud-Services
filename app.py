@@ -12,7 +12,7 @@ app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://user:password@db:5432/flask_db'
-app.config['SQLACHEMY_TRACK_MODIFICATIONS']=False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['CACHE_TYPE']='redis'
 app.config['CACHE_REDIS_HOST']=os.getenv('REDIS_HOST', 'localhost')
