@@ -31,6 +31,12 @@ services:
     ports:
       - "6379:6379"
   
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+  
   nginx:
     image: nginx:latest
     ports:
