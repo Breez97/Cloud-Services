@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FLASK_CONTAINER_ID=$(docker ps -q --filter 'ancestor=cloud-services-web')
+FLASK_CONTAINER_ID=$(docker ps -q --filter 'ancestor=cloud-services_web')
 
 if [ -z "$FLASK_CONTAINER_ID" ]; then
     echo "Flask container not found"
